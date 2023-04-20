@@ -3,6 +3,20 @@ const { merge } = require('webpack-merge');
 const webpackNodeExternals = require('webpack-node-externals')
 const path = require("path");
 
+const generatorConfig = {
+    entry: "./src/server/generator.js",
+    output: {
+        path: path.resolve(__dirname, "../dist/generator"),
+        filename: 'generator.js',
+    },
+    target: 'node',
+    node: {
+        __dirname: false,
+        __filename: false,
+    },
+    externals: [webpackNodeExternals()],
+}
+
 const clientConfig = {
     entry: "./src/client/client.js",
     output: {
@@ -26,4 +40,4 @@ const serverConfig = {
     externals: [webpackNodeExternals()],
 }
 
-module.exports = [clientConfig, serverConfig].map(x => merge(base, x))
+module.exports = [generatorConfig, clientConfig, serverConfig].map(x => merge(base, x))
